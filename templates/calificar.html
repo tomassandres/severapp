@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SeverApp - Calificar</title>
+    <style>
+        :root { --rojo: #E30613; --negro: #1A1A1A; --gris-fondo: #F8F9FA; --gris-borde: #CED4DA; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--gris-fondo); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .card { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
+        h2 { color: var(--negro); margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 25px; }
+        .estrellas { display: flex; justify-content: center; gap: 10px; font-size: 40px; cursor: pointer; margin-bottom: 20px; }
+        .estrella { color: #ccc; transition: color 0.2s; }
+        .estrella.activa { color: #f39c12; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+        textarea { width: 100%; padding: 12px; border: 1px solid var(--gris-borde); border-radius: 8px; font-family: inherit; }
+        .btn { width: 100%; padding: 14px; background: var(--rojo); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn:hover { background: #b3050f; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Calificar a {{ trabajador.nombre }}</h2>
+        <p>¿Cómo fue tu experiencia con esta persona?</p>
+        
+        <form action="/guardar_calificacion/{{ trabajador.id }}" method="POST">
+            <div class="estrellas" id="estrellas">
+                <span class="estrella" data-valor="1">★</span>
+                <span class="estrella" data-valor="2">★</span>
+                <span class="estrella" data-valor="3">★</span>
+                <span class="estrella" data-valor="4">★</span>
+                <span class="estrella" data-valor="5">★</span>
+            </div>
+            <input type="hidden" name="puntuacion" id="puntuacion" value="5" required>
+            
+            <div class="form-group">
+                <label>Comentario (opcional)</label>
+                <textarea name="comentario" rows="3" placeholder="Cuéntanos cómo fue..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn">Enviar calificación</button>
+        </form>
+    </div>
+
+    <script>
+        const estrellas = document.querySelectorAll('.estrella');
+        const inputPuntuacion = document.getElementById('puntuacion');
+        
+        estrellas.forEach(e => e.classList.add('activa'));
+
+        estrellas.forEach(estrella => {
+            estrella.addEventListener('click', function() {
+                const valor = this.getAttribute('data-valor');
+                inputPuntuacion.value = valor;
+                
+                estrellas.forEach(e => {
+                    if (e.getAttribute('data-valor') <= valor) {
+                        e.classList.add('activa');
+                    } else {
+                        e.classList.remove('activa');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

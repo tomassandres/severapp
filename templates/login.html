@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeverApp - Iniciar Sesión</title>
+    <style>
+        :root { --rojo: #E30613; --negro: #1A1A1A; --gris-fondo: #F8F9FA; --gris-borde: #CED4DA; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--gris-fondo); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        
+        .login-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: var(--negro); font-size: 24px; margin-top: 10px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; color: var(--negro); font-weight: 600; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid var(--gris-borde); border-radius: 8px; font-size: 14px; }
+        .form-group input:focus { outline: none; border-color: var(--rojo); }
+        
+        .btn-login { width: 100%; padding: 14px; background-color: var(--rojo); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.3s; }
+        .btn-login:hover { background-color: #b3050f; }
+        
+        .footer-link { text-align: center; margin-top: 20px; font-size: 14px; color: #666; }
+        .footer-link a { color: var(--rojo); text-decoration: none; font-weight: bold; }
+        
+        .error-msg { color: var(--rojo); font-size: 13px; margin-bottom: 15px; text-align: center; background: #ffe6e6; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header"><h1>Bienvenido de nuevo</h1></div>
+        
+        {% if error %}<div class="error-msg">{{ error }}</div>{% endif %}
+        
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" name="correo" placeholder="tucorreo@ejemplo.com" required>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" placeholder="Tu contraseña" required>
+            </div>
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+        
+        <div class="footer-link">
+            ¿No tienes cuenta? <a href="/registro">Regístrate aquí</a>
+        </div>
+    </div>
+</body>
+</html>
+

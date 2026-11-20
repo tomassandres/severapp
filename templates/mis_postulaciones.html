@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SeverApp - Mis Postulaciones</title>
+    <style>
+        :root { --rojo: #E30613; --negro: #1A1A1A; --gris-fondo: #F8F9FA; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--gris-fondo); }
+        .navbar { background-color: var(--negro); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { margin: 0; font-size: 20px; color: white; }
+        .navbar .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
+        .navbar .logout { background: var(--rojo); padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none; color: white;}
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        h2 { color: var(--negro); margin-bottom: 20px; }
+        .postulacion-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-left: 5px solid var(--rojo); }
+        .info h3 { margin: 0 0 5px 0; color: var(--negro); font-size: 18px; }
+        .info p { margin: 0; color: #666; font-size: 14px; }
+        .precio { font-weight: bold; color: var(--negro); font-size: 18px; margin-top: 10px; display: block; }
+        .estado { padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+        .Pendiente { background: #fff3cd; color: #856404; }
+        .Aceptada { background: #d4edda; color: #155724; }
+        .Rechazada { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>SeverApp</h1>
+        <div class="nav-links">
+            <a href="/panel">Inicio</a>
+            <a href="/mis_postulaciones">Mis Postulaciones</a>
+            <a href="/logout" class="logout">Salir</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Mis Postulaciones</h2>
+        {% if postulaciones %}
+            {% for p in postulaciones %}
+            <div class="postulacion-card">
+                <div class="info">
+                    <h3>{{ p.titulo }}</h3>
+                    <p>📅 {{ p.fecha }}</p>
+                    <span class="precio">${{ "{:,}".format(p.remuneracion) }}</span>
+                </div>
+                <div class="estado {{ p.estado }}">{{ p.estado }}</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center; color: #666; margin-top: 50px;">Aún no te has postulado a ninguna oferta.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+

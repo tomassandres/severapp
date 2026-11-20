@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SeverApp - Panel</title>
+    <style>
+        :root { --rojo: #E30613; --negro: #1A1A1A; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #F8F9FA; margin: 0; }
+        .navbar { background-color: var(--negro); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar h1 { margin: 0; font-size: 20px; }
+        .navbar a { color: white; text-decoration: none; background: var(--rojo); padding: 8px 15px; border-radius: 5px; font-weight: bold; }
+        .container { max-width: 800px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        h2 { color: var(--negro); }
+        .badge { background: #ffe6e6; color: var(--rojo); padding: 5px 10px; border-radius: 15px; font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>SeverApp</h1>
+        <a href="/logout">Salir</a>
+    </div>
+    <div class="container">
+        <h2>Hola, {{ nombre }} 👋</h2>
+        <p>Has iniciado sesión exitosamente.</p>
+        <p>Tu rol es: <span class="badge">{{ tipo_usuario }}</span></p>
+        <br>
+        <p><em>(Aquí iría el panel de ofertas o publicaciones según tu rol)</em></p>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeverApp - Publicar Oferta</title>
+    <style>
+        :root { --rojo: #E30613; --negro: #1A1A1A; --gris-fondo: #F8F9FA; --gris-borde: #CED4DA; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--gris-fondo); }
+        .navbar { background-color: var(--negro); color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar .logo-container img { height: 45px; }
+        .navbar .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
+        .navbar .logout { background: var(--rojo); padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none; color: white;}
+        
+        .container { max-width: 600px; margin: 30px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h2 { color: var(--negro); margin-bottom: 20px; text-align: center; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; color: var(--negro); font-weight: 600; margin-bottom: 5px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--gris-borde); border-radius: 8px; font-size: 14px; font-family: inherit; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--rojo); }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        
+        .btn-submit { width: 100%; padding: 14px; background: var(--rojo); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.3s; }
+        .btn-submit:hover { background: #b3050f; }
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #666; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="SeverApp Logo">
+        </div>
+        <div class="nav-links"><a href="/panel">Panel</a><a href="/logout" class="logout">Salir</a></div>
+    </div>
+
+    <div class="container">
+        <h2>Publicar Oferta</h2>
+        <form action="/crear_oferta" method="POST">
+            <div class="form-group">
+                <label>Título del trabajo</label>
+                <input type="text" name="titulo" placeholder="Ej. Ayuda con mudanza" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Categoría</label>
+                <select name="categoria" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="Mudanzas">Mudanzas</option>
+                    <option value="Mascotas">Mascotas</option>
+                    <option value="Reparaciones">Reparaciones</option>
+                    <option value="Entregas">Entregas</option>
+                    <option value="Eventos">Eventos</option>
+                    <option value="Diligencias">Diligencias</option>
+                    <option value="Belleza">Belleza</option>
+                    <option value="Servicios Profesionales">Servicios Profesionales</option>
+                    <option value="Diseño de Interiores">Diseño de Interiores</option>
+                    <option value="Carpintería">Carpintería</option>
+                    <option value="Espontáneo / Experimental">Espontáneo / Experimental</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea name="descripcion" placeholder="Describe las actividades a realizar..." required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Ubicación (Ciudad o barrio)</label>
+                <input type="text" name="ubicacion" placeholder="Ej. Bogotá" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Fecha y Horario</label>
+                <input type="text" name="fecha" placeholder="Ej. Sáb 24 oct, 8:00-12:00" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Remuneración (COP)</label>
+                <input type="number" name="remuneracion" placeholder="Ej. 90000" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">Publicar Oferta</button>
+            <a href="/panel" class="back-link">← Cancelar y volver</a>
+        </form>
+    </div>
+</body>
+</html>

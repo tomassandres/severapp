@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeverApp - Registro</title>
+    <style>
+        :root {
+            --rojo: #E30613;
+            --negro: #1A1A1A;
+            --gris-fondo: #F8F9FA;
+            --gris-borde: #CED4DA;
+        }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--gris-fondo); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        
+        .registro-container { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: var(--negro); font-size: 24px; margin-top: 10px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; color: var(--negro); font-weight: 600; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid var(--gris-borde); border-radius: 8px; font-size: 14px; }
+        .form-group input:focus { outline: none; border-color: var(--rojo); }
+        
+        .radio-group { display: flex; gap: 15px; margin-top: 5px; }
+        .radio-group label { font-weight: normal; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        
+        .btn-registrar { width: 100%; padding: 14px; background-color: var(--rojo); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.3s; }
+        .btn-registrar:hover { background-color: #b3050f; }
+        
+        .footer-link { text-align: center; margin-top: 20px; font-size: 14px; color: #666; }
+        .footer-link a { color: var(--rojo); text-decoration: none; font-weight: bold; }
+        
+        .legal-text { font-size: 11px; color: #888; text-align: center; margin-top: 15px; line-height: 1.4; }
+        .legal-text a { color: #555; text-decoration: underline; cursor: pointer; }
+        
+        .error-msg { color: var(--rojo); font-size: 13px; margin-bottom: 15px; text-align: center; background: #ffe6e6; padding: 10px; border-radius: 5px; }
+
+        /* ESTILOS DEL MODAL LEGAL */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 600px; border-radius: 12px; padding: 30px; position: relative; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: left; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #666; border: none; background: none; }
+        .close-modal:hover { color: var(--rojo); }
+        .modal-content h2 { color: var(--negro); font-size: 20px; margin-bottom: 15px; }
+        .modal-content p { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 10px; }
+        .modal-content strong { color: var(--negro); }
+    </style>
+</head>
+<body>
+
+    <div class="registro-container">
+        <div class="header">
+            <h1>Crea tu cuenta</h1>
+        </div>
+
+        {% if error %}
+            <div class="error-msg">{{ error }}</div>
+        {% endif %}
+
+        <form action="/registro" method="POST">
+            <div class="form-group">
+                <label>Nombre completo</label>
+                <input type="text" name="nombre" placeholder="Ej. Ana Torres" required>
+            </div>
+
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" name="correo" placeholder="tucorreo@ejemplo.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" placeholder="Mínimo 8 caracteres" required minlength="8">
+            </div>
+
+            <div class="form-group">
+                <label>Quiero registrarme como</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="tipo_usuario" value="Trabajador" required checked> Trabajador
+                    </label>
+                    <label>
+                        <input type="radio" name="tipo_usuario" value="Contratante" required> Contratante
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-registrar">Crear cuenta</button>
+        </form>
+
+        <div class="footer-link">
+            ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+        </div>
+        
+        <div class="legal-text">
+            Al crear una cuenta, aceptas nuestros <br>
+            <a onclick="abrirModalLegal()">Términos de Servicio y Políticas de Privacidad</a>.
+        </div>
+    </div>
+
+    <!-- MODAL LEGAL -->
+    <div class="modal-overlay" id="modalLegal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="cerrarModalLegal()">&times;</button>
+            <h2>Términos de Servicio y Políticas de Privacidad</h2>
+            
+            <p><strong>1. Naturaleza de la Plataforma:</strong> SeverApp es una plataforma de conexión que facilita el encuentro entre personas que ofrecen servicios eventuales (Trabajadores) y personas que requieren dichos servicios (Contratantes). SeverApp <strong>no es un empleador</strong> ni participa directamente en la ejecución de los trabajos.</p>
+            
+            <p><strong>2. Exención de Responsabilidad:</strong> SeverApp no se hace responsable por inconvenientes externos, daños, pérdidas, incumplimientos o conflictos que surjan entre los usuarios durante la prestación de los servicios. La negociación, ejecución y pago de los trabajos es responsabilidad exclusiva de las partes involucradas.</p>
+            
+            <p><strong>3. Protección de Datos:</strong> Los datos personales proporcionados (nombre, correo electrónico) serán utilizados únicamente para el funcionamiento de la plataforma y la conexión entre usuarios. Las contraseñas se almacenan de forma cifrada (hash) y no son compartidas con terceros.</p>
+            
+            <p><strong>4. Conducta del Usuario:</strong> Los usuarios se comprometen a proporcionar información veraz y a tratar a los demás usuarios con respeto. SeverApp se reserva el derecho de suspender cuentas que incumplan estas normas.</p>
+            
+            <p style="margin-top: 20px; text-align: center; font-weight: bold; color: var(--rojo);">¡Gracias por confiar en SeverApp! 🇨🇴</p>
+        </div>
+    </div>
+
+    <script>
+        function abrirModalLegal() {
+            document.getElementById('modalLegal').style.display = 'flex';
+        }
+        function cerrarModalLegal() {
+            document.getElementById('modalLegal').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            let modal = document.getElementById('modalLegal');
+            if (event.target == modal) {
+                cerrarModalLegal();
+            }
+        }
+    </script>
+</body>
+</html>
